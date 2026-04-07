@@ -1,7 +1,7 @@
 import json
 
 from public_docs_llm.answer.citations import build_citations
-from public_docs_llm.models import ChunkRecord
+from public_docs_llm.models import ChunkRecord, RetrievedChunk
 from public_docs_llm.retrieval import LocalIndexSearcher
 from public_docs_llm.settings import AppConfig
 
@@ -64,3 +64,22 @@ def test_retrieval_prefers_help_center_and_builds_citations(tmp_path) -> None:
     assert citations[0].chunk_id == "help::chunk-0000"
     assert citations[0].title == "Help Article"
 
+
+def test_build_citations_deduplicates_repeated_chunk_ids() -> None:
+    chunk = RetrievedChunk(
+        title="Help Article",
+        source_url="https://help.openai.com/example",
+        chunk_id="help::chunk-0000",
+        document_id="help-doc",
+        snippet="Help snippet",
+        text="Help center text",
+        source_type="help_center",
+        trust_tier="high",
+        similarity=0.9,
+        score=1.05,
+    )
+
+    citations = build_citations([chunk, chunk])
+
+    assert len(citations) == 1
+    assert citations[0].chunk_id == "help::chunk-0000"

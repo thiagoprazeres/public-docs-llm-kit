@@ -35,6 +35,22 @@ python -m playwright install chromium
 export OPENAI_API_KEY=YOUR_KEY
 ```
 
+## Development
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e ".[dev]"
+.venv/bin/ruff check .
+.venv/bin/pytest -q
+.venv/bin/uvicorn public_docs_llm.api.app:app --reload
+```
+
+You can also run the local validation path with:
+
+```bash
+make ci
+```
+
 ## End-to-end workflow
 
 1. Crawl a small seeded corpus:
