@@ -1,5 +1,7 @@
 # Grounded Public Docs LLM Kit
 
+[![CI](https://github.com/thiagoprazeres/public-docs-llm-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/thiagoprazeres/public-docs-llm-kit/actions/workflows/ci.yml)
+
 This repository contains a production-oriented MVP for a grounded documentation pipeline over public docs. It crawls a small seeded corpus, preserves provenance, normalizes HTML to Markdown, chunks and embeds documents locally, then answers questions through a FastAPI endpoint with structured citations.
 
 The current vertical slice targets:
@@ -49,6 +51,14 @@ You can also run the local validation path with:
 
 ```bash
 make ci
+```
+
+## Validation
+
+```bash
+make ci
+pytest -q
+ruff check .
 ```
 
 ## End-to-end workflow
