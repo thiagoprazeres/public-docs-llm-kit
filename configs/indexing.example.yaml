@@ -1,0 +1,40 @@
+storage:
+  corpus_root: var/corpus
+  index_root: var/indexes
+
+crawl:
+  user_agent: public-docs-llm-kit/0.1
+  max_pages: 10
+  request_timeout_seconds: 20
+  same_host_only: true
+  follow_links: true
+  browser_fallback_hosts:
+    - help.openai.com
+  seeds:
+    - url: https://help.openai.com/en/articles/6614161-how-can-i-contact-support
+      source_hint: help_center
+    - url: https://academy.openai.com/
+      source_hint: academy
+
+indexing:
+  index_name: openai-public-docs
+  chunk_size_chars: 1200
+  chunk_overlap_chars: 200
+  snippet_chars: 280
+  exclude_academy_partner_content: true
+
+retrieval:
+  top_k: 5
+  weak_evidence_threshold: 0.30
+  min_similarity_threshold: 0.15
+  source_weights:
+    help_center: 0.15
+    academy_official: 0.05
+    academy_partner: -0.10
+    other: 0.0
+
+models:
+  embedding_model: text-embedding-3-small
+  answer_model: gpt-5-mini
+  answer_max_output_tokens: 400
+
